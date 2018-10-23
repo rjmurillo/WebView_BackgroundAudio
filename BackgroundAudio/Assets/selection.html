@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+<div>
+    <button data-src="https://mdn.github.io/webaudio-examples/decode-audio-data/viper.ogg">Play Viper</button>
+</div>
+<div>
+    <button disabled="">Stop</button>
+</div>
+<script>
+    var jsonParse = function (args) {
+        try {
+            const o = JSON.parse(args);
+            if (o && typeof o === "object") {
+                return o;
+            }
+        } catch (e) { }
+
+        return false;
+    },
+        loadState = function (state) {
+            var obj = jsonParse(state);
+            if (!obj) {
+                console.error('Unknown state', state);
+            } else {
+                if (obj.state === 'playing') {
+                    document.querySelector('button:not([data-src])').disabled = false;
+                    document.querySelector(`button[data-src="${obj.url}"]`).disabled = true;
+                } else if (obj.state === 'stopped') {
+                    document.querySelectorAll('button').forEach(e => {
+                        e.disabled = false;
+                    });
+                    document.querySelector('button:not([data-src])').disabled = true;
+                } else if (obj.state === 'error') {
+                    document.querySelectorAll('button').forEach(e => {
+                        e.disabled = false;
+                    });
+                }
+            }
+        };
+
+    (function () {
+        var raiseState = function(url, state) {
+            const o = {
+                url: url,
+                state: state
+            };
+            console.log(o);
+            window.external.notify(JSON.stringify(o));
+        };
+
+        document.querySelectorAll('button').forEach(e => {
+            e.addEventListener('click',
+                (event) => {
+                    event.target.disabled = true;
+                    if (event.target.dataset.src) {
+                        console.log('Notify load ', event.target.dataset.src);
+                        raiseState(event.target.dataset.src, 'play');
+                    } else {
+                        console.log('Notify stop');
+                        raiseState(null, 'stop');
+                    }
+                });
+        });
+    })();
+</script>
+</body>
+</html>
