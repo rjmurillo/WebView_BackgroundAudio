@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -6,9 +6,10 @@
     <title></title>
 </head>
 <body>
-<div>
-    <button data-src="https://mdn.github.io/webaudio-examples/decode-audio-data/viper.ogg">Play Viper</button>
-</div>
+    <div>
+        <button data-src="ms-appx-web:///Assets/RushWorkingMan.mp3">Play Viper</button>
+        <!--button data-src="https://mdn.github.io/webaudio-examples/decode-audio-data/viper.ogg">Play Viper</button-->
+    </div>
 <div>
     <button disabled="">Stop</button>
 </div>
@@ -61,9 +62,12 @@
                     if (event.target.dataset.src) {
                         console.log('Notify load ', event.target.dataset.src);
                         raiseState(event.target.dataset.src, 'play');
+                        mediaPlayer.addItem(event.target.dataset.src);
+                        mediaPlayer.play();
+
                     } else {
                         console.log('Notify stop');
-                        raiseState(null, 'stop');
+                        raiseState(null, 'pause');
                     }
                 });
         });

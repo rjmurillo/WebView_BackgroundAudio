@@ -5,16 +5,25 @@ VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundAudio", "BackgroundAudio\BackgroundAudio.csproj", "{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{70B2606E-DD55-4C7E-921B-A1511925FE67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModels", "ViewModels", "{EB60A31B-676C-4DFB-B1B8-D1034F5C6383}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundAudioWinRT", "BackgroundAudioWinRT\BackgroundAudioWinRT.csproj", "{BE46D0CC-E420-4811-B200-D270466DE3CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Debug|ARM.ActiveCfg = Debug|ARM
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Debug|ARM.Build.0 = Debug|ARM
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -24,6 +33,7 @@ Global
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Debug|x86.ActiveCfg = Debug|x86
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Debug|x86.Build.0 = Debug|x86
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Debug|x86.Deploy.0 = Debug|x86
+		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Release|Any CPU.ActiveCfg = Release|x86
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Release|ARM.ActiveCfg = Release|ARM
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Release|ARM.Build.0 = Release|ARM
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Release|ARM.Deploy.0 = Release|ARM
@@ -33,6 +43,22 @@ Global
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Release|x86.ActiveCfg = Release|x86
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Release|x86.Build.0 = Release|x86
 		{215CAD7C-F50A-476C-ADE3-E4A860FFF7A5}.Release|x86.Deploy.0 = Release|x86
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|ARM.ActiveCfg = Debug|ARM
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|ARM.Build.0 = Debug|ARM
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|x64.ActiveCfg = Debug|x64
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|x64.Build.0 = Debug|x64
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|x86.ActiveCfg = Debug|x86
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Debug|x86.Build.0 = Debug|x86
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|ARM.ActiveCfg = Release|ARM
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|ARM.Build.0 = Release|ARM
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|x64.ActiveCfg = Release|x64
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|x64.Build.0 = Release|x64
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|x86.ActiveCfg = Release|x86
+		{BE46D0CC-E420-4811-B200-D270466DE3CE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
