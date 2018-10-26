@@ -42,7 +42,7 @@ namespace BackgroundAudioWinRT
             get { return this.Player.Volume; }
             set { this.Player.Volume = value; }
         }
-        public void addItem(string uriString)
+        public void AddItem(string uriString)
         {
             Uri s = new Uri(uriString);
             if (this.Player.Source == null)
