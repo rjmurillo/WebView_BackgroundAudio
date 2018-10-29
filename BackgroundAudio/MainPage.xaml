@@ -13,5 +13,7 @@
             <RowDefinition Height="9*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Button Content="Unload" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonUnload_Click" Grid.Row="1"/>
+        <Button Content="Load" HorizontalAlignment="right" VerticalAlignment="Top" Click="ButtonLoad_Click" Grid.Row="1" />
     </Grid>
 </Page>

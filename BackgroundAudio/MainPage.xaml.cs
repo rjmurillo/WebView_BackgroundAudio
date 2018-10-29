@@ -16,8 +16,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace BackgroundAudio
 {
     /// <summary>
@@ -25,8 +23,7 @@ namespace BackgroundAudio
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private static readonly Uri Selection = new Uri("ms-appx-web:///Assets/selection.html");
-        private static readonly Uri Player = new Uri("ms-appx-web:///Assets/player.html");
+        private static readonly Uri MainHTMLPageUri = new Uri("ms-appx-web:///html/main.html");
 
         public MainPage()
         {
@@ -40,14 +37,7 @@ namespace BackgroundAudio
 
         private void Current_EnteredBackground(object sender, Windows.ApplicationModel.EnteredBackgroundEventArgs e)
         {
-            if (wv1 != null)
-            {
-                wv1 = null;
-            }
-            if (wv2 != null)
-            {
-                wv2 = null;
-            }
+            Unload();
         }
 
         private void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
@@ -56,33 +46,39 @@ namespace BackgroundAudio
         }
 
         private WebView wv1 = null;
-        private WebView wv2 = null;
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Load();
         }
 
+        private void Unload()
+        {
+            Grid.Children.Remove(wv1);
+            UnwireWebViewDiagnostics(wv1);
+
+            if (wv1 != null)
+            {
+                wv1 = null;
+            }
+
+            GC.Collect();
+        }
         private void Load()
         {
             if (wv1 == null)
             {
-                wv1 = CreateWebView(0);
-                wv1.Source = Selection;
-            }
-            if (wv2 == null)
-            {
-                wv2 = CreateWebView(1);
-                wv2.Source = Player;
+                wv1 = CreateWebView();
+                wv1.Source = MainHTMLPageUri;
             }
         }
 
-        private WebView CreateWebView(int row)
+        private WebView CreateWebView()
         {
             var wv = new WebView(WebViewExecutionMode.SeparateProcess);
             wv.Settings.IsJavaScriptEnabled = true;
             wv.AddWebAllowedObject("mediaPlayer", PlaybackService.Instance);
             WireUpWebViewDiagnostics(wv);
-            Grid.SetRow(wv, row);
+            Grid.SetRow(wv, 0);
             this.Grid.Children.Add(wv);
             return wv;
         }
@@ -105,24 +101,10 @@ namespace BackgroundAudio
         {
             if (sender is WebView wv)
             {
-////                if (wv.Source.PathAndQuery.Equals(Selection.PathAndQuery, StringComparison.OrdinalIgnoreCase))
-////                {
-////                    Debug.WriteLine("Invoking script on " + wv.Source + ". Args: " + e.Value);
-////#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-////                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-////                    {
-////                        var wv2 = this.Grid.Children[1] as WebView;
-////                        wv2?.InvokeScriptAsync("mediaPlayback", new[] { e.Value });
-////                    });
-////#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-////                } else if (wv.Source.PathAndQuery.Equals(Player.PathAndQuery, StringComparison.OrdinalIgnoreCase))
-////                {
-////                    var wv1 = this.Grid.Children[0] as WebView;
-////                    wv1?.InvokeScriptAsync("loadState", new []{e.Value});
-////                }
+                //If you want to trigger an exteranl event without passing in a WinRT object, 
+                // use window.external.notify("some string") which will call this method. The string will 
+                // be accessible via e.Value. 
             }
-
-
         }
 
         private void OnWebViewSeparateProcessLost(WebView sender, WebViewSeparateProcessLostEventArgs args)
@@ -135,6 +117,15 @@ namespace BackgroundAudio
         private void OnWebViewNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             Debug.WriteLine(args.Uri?.ToString());
+        }
+
+        private void ButtonUnload_Click(object sender, RoutedEventArgs e)
+        {
+            Unload();
+        }
+        private void ButtonLoad_Click(object sender, RoutedEventArgs e)
+        {
+            Load();
         }
     }
 }

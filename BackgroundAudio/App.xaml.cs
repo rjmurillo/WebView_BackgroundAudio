@@ -50,12 +50,12 @@ namespace BackgroundAudio
             MemoryManager.AppMemoryUsageLimitChanging += AppMemoryUsageLimitChanging;
             MemoryManager.AppMemoryUsageIncreased += AppMemoryUsageIncreased;
 
-            Timer showMemoryOnTimer = new Timer(ShowMemoryUsage, null, 0, 2000);            
-            
+            Timer showMemoryOnTimer = new Timer(ShowMemoryUsage, null, 0, 2000);
+
         }
 
-    private void ShowMemoryUsage(object state)
-    {
+        private void ShowMemoryUsage(object state)
+        {
             ShowToast("Testing Memory from timer");
         }
 
