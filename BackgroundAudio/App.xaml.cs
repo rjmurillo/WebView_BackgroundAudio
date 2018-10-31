@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -48,6 +49,14 @@ namespace BackgroundAudio
 
             MemoryManager.AppMemoryUsageLimitChanging += AppMemoryUsageLimitChanging;
             MemoryManager.AppMemoryUsageIncreased += AppMemoryUsageIncreased;
+
+            Timer showMemoryOnTimer = new Timer(ShowMemoryUsage, null, 0, 2000);
+
+        }
+
+        private void ShowMemoryUsage(object state)
+        {
+            ShowToast("Testing Memory from timer");
         }
 
         private void AppMemoryUsageIncreased(object sender, object e)

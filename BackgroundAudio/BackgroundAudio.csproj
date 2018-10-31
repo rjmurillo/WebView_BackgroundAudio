@@ -107,8 +107,21 @@
     <None Include="BackgroundAudio_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\player.html" />
-    <Content Include="Assets\selection.html" />
+    <None Include="Assets\playlist.json" />
+    <Content Include="Assets\media\Ring01.jpg" />
+    <Content Include="Assets\media\Ring01.wma" />
+    <Content Include="Assets\media\Ring02.jpg" />
+    <Content Include="Assets\media\Ring02.wma" />
+    <Content Include="Assets\media\Ring03Part1.jpg" />
+    <Content Include="Assets\media\Ring03Part1.wma" />
+    <Content Include="Assets\media\Ring03Part2.jpg" />
+    <Content Include="Assets\media\Ring03Part2.wma" />
+    <Content Include="Assets\media\Ring03Part3.jpg" />
+    <Content Include="Assets\media\Ring03Part3.wma" />
+    <Content Include="Assets\RushWorkingMan.mp3" />
+    <Content Include="html\css\main.css" />
+    <Content Include="html\js\main.js" />
+    <Content Include="html\main.html" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -132,6 +145,12 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.9</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BackgroundAudioWinRT\BackgroundAudioWinRT.csproj">
+      <Project>{be46d0cc-e420-4811-b200-d270466de3ce}</Project>
+      <Name>BackgroundAudioWinRT</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
