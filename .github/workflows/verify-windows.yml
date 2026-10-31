@@ -1,0 +1,54 @@
+name: verify-windows
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+
+      - name: Show SDK
+        run: dotnet --version
+
+      - name: Build Release x64
+        run: dotnet build BackgroundAudio/BackgroundAudio.csproj -c Release -p:Platform=x64
+
+      - name: Inspect component winmd
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Filter BackgroundAudioWinRT.winmd | ForEach-Object { $_.FullName }
+          $winmd = Get-ChildItem -Recurse -Filter BackgroundAudioWinRT.winmd | Select-Object -First 1
+          $stream = [System.IO.File]::OpenRead($winmd.FullName)
+          $pe = [System.Reflection.PortableExecutable.PEReader]::new($stream)
+          $md = [System.Reflection.Metadata.PEReaderExtensions]::GetMetadataReader($pe)
+          foreach ($h in $md.TypeDefinitions) {
+            $t = $md.GetTypeDefinition($h)
+            $name = $md.GetString($t.Namespace) + "." + $md.GetString($t.Name)
+            foreach ($ah in $t.GetCustomAttributes()) {
+              $a = $md.GetCustomAttribute($ah)
+              if ($a.Constructor.Kind -eq [System.Reflection.Metadata.HandleKind]::MemberReference) {
+                $mr = $md.GetMemberReference([System.Reflection.Metadata.MemberReferenceHandle]$a.Constructor)
+                if ($mr.Parent.Kind -eq [System.Reflection.Metadata.HandleKind]::TypeReference) {
+                  $tr = $md.GetTypeReference([System.Reflection.Metadata.TypeReferenceHandle]$mr.Parent)
+                  Write-Output ("{0} has [{1}.{2}]" -f $name, $md.GetString($tr.Namespace), $md.GetString($tr.Name))
+                }
+              }
+            }
+          }
+          $pe.Dispose()
+
+      - name: Inspect app output
+        shell: pwsh
+        run: |
+          Get-ChildItem BackgroundAudio/bin -Recurse -Include *.winmd,AppxManifest.xml,BackgroundAudio.exe,BackgroundAudio.dll,BackgroundAudioWinRT.dll | ForEach-Object { $_.FullName }
+          $m = Get-ChildItem BackgroundAudio/bin -Recurse -Filter AppxManifest.xml | Select-Object -First 1
+          if ($m) { Get-Content $m.FullName }
