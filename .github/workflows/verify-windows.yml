@@ -62,7 +62,7 @@ jobs:
           if ($m) { Get-Content $m.FullName }
 
       - name: Package MSIX Release x64
-        run: msbuild BackgroundAudio/BackgroundAudio.csproj /restore /p:Configuration=Release /p:Platform=x64 /p:BuildProjectReferences=false /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:GenerateAppxPackageOnBuild=true /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never /v:minimal /nologo
+        run: msbuild BackgroundAudio/BackgroundAudio.csproj /restore /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:GenerateAppxPackageOnBuild=true /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never /v:minimal /nologo
 
       - name: Inspect MSIX package
         shell: pwsh
