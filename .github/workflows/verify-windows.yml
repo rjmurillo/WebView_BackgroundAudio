@@ -60,3 +60,21 @@ jobs:
           Get-ChildItem BackgroundAudio/bin -Recurse -Include *.winmd,AppxManifest.xml,BackgroundAudio.exe,BackgroundAudio.dll,BackgroundAudioWinRT.dll | ForEach-Object { $_.FullName }
           $m = Get-ChildItem BackgroundAudio/bin -Recurse -Filter AppxManifest.xml | Select-Object -First 1
           if ($m) { Get-Content $m.FullName }
+
+      - name: Package MSIX Release x64
+        run: msbuild BackgroundAudio/BackgroundAudio.csproj /restore /p:Configuration=Release /p:Platform=x64 /p:GenerateAppxPackageOnBuild=true /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never /v:minimal /nologo
+
+      - name: Inspect MSIX package
+        shell: pwsh
+        run: |
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          Get-ChildItem BackgroundAudio -Recurse -Filter *.appxrecipe | ForEach-Object { $_.FullName; Select-String -Path $_.FullName -Pattern 'winmd|WinRT.Host' | ForEach-Object { $_.Line.Trim() } }
+          $pkgs = Get-ChildItem BackgroundAudio -Recurse -Include *.msix,*.appx
+          foreach ($p in $pkgs) {
+            Write-Output ("PACKAGE {0} {1} bytes" -f $p.FullName, $p.Length)
+            $zip = [System.IO.Compression.ZipFile]::OpenRead($p.FullName)
+            $zip.Entries | ForEach-Object { $_.FullName } | Where-Object { $_ -notmatch '^Assets/' }
+            $zip.Dispose()
+            $sig = Get-AuthenticodeSignature $p.FullName
+            Write-Output ("SIGNATURE {0} {1}" -f $sig.Status, $sig.SignerCertificate.Subject)
+          }
