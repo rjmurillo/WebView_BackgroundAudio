@@ -16,11 +16,19 @@ jobs:
         with:
           global-json-file: global.json
 
-      - name: Show SDK
-        run: dotnet --version
+      - uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57 # v3
+
+      - name: Show toolchain
+        shell: pwsh
+        run: |
+          dotnet --version
+          msbuild -version -nologo
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          & $vswhere -latest -products * -property displayName
+          & $vswhere -latest -products * -requires Microsoft.VisualStudio.ComponentGroup.UWP.Support -property installationPath
 
       - name: Build Release x64
-        run: dotnet build BackgroundAudio/BackgroundAudio.csproj -c Release -p:Platform=x64
+        run: msbuild BackgroundAudio/BackgroundAudio.csproj /restore /p:Configuration=Release /p:Platform=x64 /v:minimal /nologo
 
       - name: Inspect component winmd
         shell: pwsh
