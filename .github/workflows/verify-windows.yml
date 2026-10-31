@@ -73,7 +73,7 @@ jobs:
           foreach ($p in $pkgs) {
             Write-Output ("PACKAGE {0} {1} bytes" -f $p.FullName, $p.Length)
             $zip = [System.IO.Compression.ZipFile]::OpenRead($p.FullName)
-            $zip.Entries | ForEach-Object { $_.FullName } | Where-Object { $_ -notmatch '^Assets/' }
+            $zip.Entries | ForEach-Object { $_.FullName }
             $zip.Dispose()
             $sig = Get-AuthenticodeSignature $p.FullName
             Write-Output ("SIGNATURE {0} {1}" -f $sig.Status, $sig.SignerCertificate.Subject)
